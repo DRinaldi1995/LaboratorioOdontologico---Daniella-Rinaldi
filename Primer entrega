@@ -1,0 +1,59 @@
+-- Crear la base de datos
+CREATE DATABASE LaboratorioOdontologico;
+USE LaboratorioOdontologico;
+
+-- Crear la tabla Cliente
+CREATE TABLE Cliente (
+    ClienteID INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(100),
+    Apellido VARCHAR(100),
+    Telefono VARCHAR(20),
+    Email VARCHAR(100),
+    Direccion VARCHAR(200)
+);
+
+-- Crear la tabla Producto
+CREATE TABLE Producto (
+    ProductoID INT AUTO_INCREMENT PRIMARY KEY,
+    NombreProducto VARCHAR(100),
+    Descripcion TEXT,
+    Precio DECIMAL(10, 2)
+);
+
+-- Crear la tabla Pedido
+CREATE TABLE Pedido (
+    PedidoID INT AUTO_INCREMENT PRIMARY KEY,
+    FechaPedido DATE,
+    FechaEntrega DATE,
+    Estado VARCHAR(50),
+    ClienteID INT,
+    FOREIGN KEY (ClienteID) REFERENCES Cliente(ClienteID)
+);
+
+-- Crear la tabla PedidoProducto
+CREATE TABLE PedidoProducto (
+    PedidoID INT,
+    ProductoID INT,
+    FOREIGN KEY (PedidoID) REFERENCES Pedido(PedidoID),
+    FOREIGN KEY (ProductoID) REFERENCES Producto(ProductoID),
+    PRIMARY KEY (PedidoID, ProductoID)
+);
+
+-- Crear la tabla Retoque
+CREATE TABLE Retoque (
+    RetoqueID INT AUTO_INCREMENT PRIMARY KEY,
+    PedidoID INT,
+    FechaRetoque DATE,
+    DescripcionProblema TEXT,
+    AccionTomada TEXT,
+    FOREIGN KEY (PedidoID) REFERENCES Pedido(PedidoID)
+);
+
+-- Crear la tabla RendimientoMensual
+CREATE TABLE RendimientoMensual (
+    MesAño VARCHAR(7) PRIMARY KEY,
+    TotalPedidos INT,
+    Ingresos DECIMAL(10, 2),
+    Gastos DECIMAL(10, 2),
+    NumeroReparaciones INT
+);
